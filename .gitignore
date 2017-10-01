@@ -1,2 +1,4 @@
 /data
 featureSelection_demo.ipynb
+.ipynb_checkpoints
+__pycache__
