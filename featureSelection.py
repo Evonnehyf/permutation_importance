@@ -5,8 +5,37 @@ import numpy as np
 import operator
 
 class featureSelector(object):
+
+    """Hybrid feature importance for feature selection.
+    Parameters
+    ----------
+    model : model instance
+        Linear / tree - based model from sklearn.
+    scorer : score function
+        Ex.: accuracy(y_true, y_pred)
+    cv : crossvalidation strategy instance
+        Ex.: KFold(n_splits=5)
+    prcnt : float number 0...1
+        proportion of the features selected on every iteration
+    to_keep : int
+        minimal feature set length
+    tol : float
+        maximum difference between chosen feature set score and minimal score
+    mode : string; 'reg' or 'class'
+        specify type of model
+    verbose : bool
+        if True, prints out number of features vs. scores on the current iteration
+
+    Returns
+    -------
+    feature sets : list of tuples
+        all feature sets and scores
+    best feature set : list
+        feature set that satisfying the following condition:
+            min(len(features)).score - min(score) <= tol
+    """
     
-    def __init__(self, model, scorer, cv, prcnt=0.8, to_keep=2, tol=0.05, mode='reg', verbose=False):
+    def __init__(self, model=None, scorer=None, cv=None, prcnt=0.8, to_keep=2, tol=0.05, mode='reg', verbose=False):
 
         self.mode = mode
         self.model = model
