@@ -4,7 +4,7 @@ This simple algorithm combines correlation coefficient, input perturbation and M
 
 importance = weight_rank + perturbation_rank * std(perturbation_rank) + correlation_rank * (1 - std(perturbation_rank))  
 
-Can be used with linear and forest models from sklearn.  
+Can be used with linear / tree-based models from sklearn.  
 Compatible with the sklearn pipeline.  
 
 Check out the code for more info.  
