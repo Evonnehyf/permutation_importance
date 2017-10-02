@@ -35,4 +35,3 @@ min(len(features)).score - min(score) <= **tol**
 * python 3.6
 * numpy 1.12.1
 * pandas 0.20.1
-* sklearn 0.18.2
