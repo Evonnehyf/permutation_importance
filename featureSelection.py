@@ -13,9 +13,9 @@ class featureSelector(object):
         Linear / tree - based model from sklearn.
     scorer : score function
         Ex.: accuracy(y_true, y_pred)
-    cv : crossvalidation strategy instance
+    cv : cross validation strategy instance
         Ex.: KFold(n_splits=5)
-    prcnt : float number 0...1
+    prcnt : float, .0...1.0
         proportion of the features selected on every iteration
     to_keep : int
         minimal feature set length
