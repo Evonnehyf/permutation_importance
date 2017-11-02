@@ -61,14 +61,6 @@ class featureSelector(object):
             x[col] = hold
         impt /= np.sum(impt)
         return impt
-
-    def rank_stat(self, x, y):
-        impt = np.zeros(x.shape[1])
-        for i, col in enumerate(x.columns):
-            c = np.corrcoef(x[col].values, y.ravel())[1,0]
-            impt[i] = abs(c)
-        impt /= np.sum(impt)
-        return impt
         
     def fit(self, train, y_train):
         self.features = list(train.columns)
@@ -78,7 +70,7 @@ class featureSelector(object):
             trsh += 1
         while True:
             if len(self.features) >= trsh:
-                score, importances, impt_pertrub, impt_stat, fold = 0, 0, 0, 0, 1
+                score, importances, impt_pertrub, fold = 0, 0, 0, 1
                 for train_index, test_index in self.cv.split(train, y_train):
                     self.model.fit(train[self.features].loc[train_index], y_train[train_index])
                     if self.mode == 'reg':
@@ -93,13 +85,12 @@ class featureSelector(object):
                         importances_ = abs(self.model.coef_[0])
                     importances += importances_ / np.sum(importances_)
                     impt_pertrub += self.rank_pertrub(train[self.features].loc[train_index], y_train[train_index])
-                    impt_stat += self.rank_stat(train[self.features].loc[train_index], y_train[train_index])
                     fold += 1
                 importances /= fold
                 impt_pertrub /= fold                
                 score /= fold
                 d = np.std(impt_pertrub)
-                importances += impt_pertrub * d + impt_stat * (1 - d)
+                importances += impt_pertrub * d
                 importances /= np.sum(importances)
                 self.scores.append(score)
                 if self.verbose:
@@ -117,6 +108,8 @@ class featureSelector(object):
                     break
             else:
                 self.best = self.scores.index(min_)
+
+        self.best_features_importances = self.feature_sets[self.best]
 
     def transform(self, df):
         return df[[i[0] for i in self.feature_sets[self.best]]]

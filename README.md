@@ -2,7 +2,7 @@
 
 This simple algorithm combines correlation coefficient, input perturbation and ML model's weight ranks:  
 
-importance = weight_rank + perturbation_rank * std(perturbation_rank) + correlation_rank * (1 - std(perturbation_rank))  
+importance = weight_rank + perturbation_rank * std(perturbation_rank)  
 
 Can be used with linear / tree-based models from sklearn.  
 Compatible with the sklearn pipeline.  
