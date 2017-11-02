@@ -9,6 +9,12 @@ Compatible with the sklearn pipeline.
 
 Check out the code for more info.  
 
+## Installation
+```
+pip install featureselection
+```
+
+
 ## Usage
 
 ```
