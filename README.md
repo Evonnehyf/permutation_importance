@@ -1,6 +1,6 @@
 # Hybrid feature importance for feature selection
 
-This simple algorithm combines correlation coefficient, input perturbation and ML model's weight ranks:  
+This simple algorithm combines input perturbation and ML model's weight ranks:  
 
 importance = weight_rank + perturbation_rank * std(perturbation_rank)  
 
