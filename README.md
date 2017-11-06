@@ -23,9 +23,9 @@ import pandas as pd
 import numpy as np
 from sklearn.model_selection import KFold
 from sklearn.ensemble import RandomForestRegressor
-from sklearn.metrics import r2_score
+from sklearn.metrics import mean_squared_error
 
-selector = featureSelector(model=RandomForestRegressor(n_estimators=100), scorer=r2_score, 
+selector = featureSelector(model=RandomForestRegressor(n_estimators=100), scorer=mean_squared_error, 
                            cv=KFold(n_splits=5), prcnt=0.8, to_keep=1, tol=0.01, mode='reg', verbose=True)
                            
 selector.fit(train, y_train.values)
