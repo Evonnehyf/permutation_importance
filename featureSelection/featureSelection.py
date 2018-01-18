@@ -70,13 +70,16 @@ class featureSelector(object):
             trsh += 1
         while True:
             if len(self.features) >= trsh:
-                score, importances, impt_pertrub, fold = 0, 0, 0, 1
+                score, importances, fold = 0, 0, 1
                 for train_index, test_index in self.cv.split(train, y_train):
                     self.model.fit(train[self.features].loc[train_index], y_train[train_index])
                     if self.mode == 'reg':
                         score += self.scorer(y_train[test_index], self.model.predict(train[self.features].loc[test_index]))
                     elif self.mode == 'class':
                         score += self.scorer(y_train[test_index], self.model.predict_proba(train[self.features].loc[test_index]))
+
+                    #TO DO: add model importances
+                    """
                     try:
                         importances_std = np.std([tree.feature_importances_ for tree in self.model.estimators_], axis=0)
                         importances_std /= np.sum(importances_std)
@@ -84,14 +87,12 @@ class featureSelector(object):
                     except: 
                         importances_ = abs(self.model.coef_[0])
                     importances += importances_ / np.sum(importances_)
-                    impt_pertrub += self.rank_pertrub(train[self.features].loc[train_index], y_train[train_index])
+                    """
+
+                    importances += self.rank_pertrub(train[self.features].loc[train_index], y_train[train_index])
                     fold += 1
                 importances /= fold
-                impt_pertrub /= fold                
                 score /= fold
-                d = np.std(impt_pertrub)
-                importances += impt_pertrub * d
-                importances /= np.sum(importances)
                 self.scores.append(score)
                 if self.verbose:
                     print(len(self.features), ' : ', score)
