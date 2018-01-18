@@ -2,7 +2,7 @@
 
 Algorithm:
 
-*importance_i = scorer(model.predict(data[features].concat(shuffle(features[i])))); i = 0...len(features)*
+importance_i = scorer(model.predict(data[features].concat(shuffle(features[i])))); i = [0...len(features)]
 
 Compatible with the sklearn pipeline.  
 Check out the code for more info.  
