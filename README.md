@@ -1,12 +1,10 @@
-# Hybrid feature importance for feature selection
+# Random shuffling approach for feature selection
 
-This simple algorithm combines input perturbation and ML model's weight ranks:  
+Algorithm:
 
-importance = weight_rank + perturbation_rank * std(perturbation_rank)  
+*importance_i = scorer(model.predict(data[features].concat(shuffle(features[i])))); i = 0...len(features)*
 
-Can be used with linear / tree-based models from sklearn.  
 Compatible with the sklearn pipeline.  
-
 Check out the code for more info.  
 
 ## Installation
@@ -32,7 +30,7 @@ selector.fit(train, y_train.values)
 train = selector.transform(train)
 ```
 
-Algorithm recursively drops 1.0-**prcnt** of features, modifies feature importance according to the formula above and stops when the number of remaining features == **to_keep**.  
+Algorithm recursively drops 1.0-**prcnt** of features, modifies feature importance and stops when the number of remaining features == **to_keep**.  
 Transform method chooses feature set with minimum amount of features, which satisfies following condition:
 
 score - min(scores) <= **tol**
