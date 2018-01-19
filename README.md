@@ -2,7 +2,12 @@
 
 Algorithm:
 
-importance[i] = scorer(model.predict(data[features].concat(shuffle(features[i])))); i = [0...len(features)]
+*importance[i] = scorer( model.predict( data[features].concat(shuffle(features[i])) ) ); i = [0...len(features)]*
+
+Algorithm recursively drops 1.0-**prcnt** of features, modifies feature importance and stops when the number of remaining features == **to_keep**.  
+Transform method chooses feature set with minimum amount of features, which satisfies following condition:
+
+score - min(scores) <= **tol**
 
 Compatible with the sklearn pipeline.  
 Check out the code for more info.  
@@ -29,11 +34,6 @@ selector = featureSelector(model=RandomForestRegressor(n_estimators=100), scorer
 selector.fit(train, y_train.values)
 train = selector.transform(train)
 ```
-
-Algorithm recursively drops 1.0-**prcnt** of features, modifies feature importance and stops when the number of remaining features == **to_keep**.  
-Transform method chooses feature set with minimum amount of features, which satisfies following condition:
-
-score - min(scores) <= **tol**
 
 ## Dependencies  
 * python 3.6
