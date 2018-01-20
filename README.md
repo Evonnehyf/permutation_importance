@@ -31,7 +31,7 @@ train = selector.transform(train)
 ```
 
 Algorithm recursively drops 1.0-**prcnt** of features, modifies feature importance and stops when the number of remaining features == **to_keep**.  
-Transform method chooses feature set with minimum amount of features, which satisfies following condition:
+Transform method chooses feature set with minimal amount of features, which satisfies following condition:
 
 score - min(scores) <= **tol**
 
