@@ -50,15 +50,15 @@ class featureSelector(object):
 
     def rank_pertrub(self, x, y):
         impt = np.zeros(x.shape[1])
-        for i, col in enumerate(x.columns):
-            hold = x[col]
-            x[col] = x[col].sample(frac=1).values
+        hold = x.copy()
+        for i in range(x.shape[1]):
+            x[i] = x[i].sample(frac=1).values
             if self.mode == 'reg':
-                score = self.scorer(y, self.model.predict(x))
-            if self.mode == 'class':                
-                score = self.scorer(y, self.model.predict_proba(x))
+                score = np.abs(self.scorer(y, self.model.predict(hold)) - self.scorer(y, self.model.predict(x)))
+            if self.mode == 'class':
+                score = np.abs(self.scorer(y, self.model.predict_proba(hold)) - self.scorer(y, self.model.predict_proba(x)))
             impt[i] = score
-            x[col] = hold
+            x = hold
         impt /= np.sum(impt)
         return impt
         
@@ -77,18 +77,6 @@ class featureSelector(object):
                         score += self.scorer(y_train[test_index], self.model.predict(train[self.features].loc[test_index]))
                     elif self.mode == 'class':
                         score += self.scorer(y_train[test_index], self.model.predict_proba(train[self.features].loc[test_index]))
-
-                    #TO DO: add model importances
-                    """
-                    try:
-                        importances_std = np.std([tree.feature_importances_ for tree in self.model.estimators_], axis=0)
-                        importances_std /= np.sum(importances_std)
-                        importances_ = ((self.model.feature_importances_/np.sum(self.model.feature_importances_))*importances_std)
-                    except: 
-                        importances_ = abs(self.model.coef_[0])
-                    importances += importances_ / np.sum(importances_)
-                    """
-
                     importances += self.rank_pertrub(train[self.features].loc[train_index], y_train[train_index])
                     fold += 1
                 importances /= fold
