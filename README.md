@@ -1,8 +1,8 @@
-# Random shuffling approach for feature selection
+# Permutation_importance
 
 How to calculate importance:
 
-importance[i] = *scorer*( *model*.predict( *concat*( data.*drop*(features[i]), (*shuffle*(data[features[i]])) ) ) ); i = [0...len(features)]
+`importance[i] = scorer( model.predict( concat( data.drop(features[i]), (shuffle(data[features[i]])) ) ) ); i = [0...len(features)]`
 
 Compatible with the sklearn pipeline.  
 Check out the code for more info.  
